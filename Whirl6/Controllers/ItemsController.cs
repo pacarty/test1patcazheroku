@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace Whirl6.Controllers
     public class ItemsController : Controller
     {
         private TodoContext _context;
+        private IWebHostEnvironment env;
 
-        public ItemsController(TodoContext context)
+        public ItemsController(TodoContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            env = environment;
         }
 
         
@@ -31,7 +34,9 @@ namespace Whirl6.Controllers
 
             // var x = getConnectionString();
 
-            return Ok(result);
+            var x = env.EnvironmentName;
+
+            return Ok(x);
         }
 
         [HttpPost]

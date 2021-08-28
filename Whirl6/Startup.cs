@@ -49,7 +49,7 @@ namespace Whirl6
             string herokudb = getConnectionString();
 
             services.AddControllers();
-            // services.AddDbContext<TodoContext>(options => options.UseNpgsql(Configuration.GetConnectionString("LocalConnection")));
+           //  services.AddDbContext<TodoContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DockerLocalConnection")));
             services.AddDbContext<TodoContext>(options => options.UseNpgsql(herokudb));
         }
 
