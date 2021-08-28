@@ -16,14 +16,14 @@ namespace Whirl6
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        public Startup(IConfiguration configuration/*, IWebHostEnvironment environment*/)
         {
             Configuration = configuration;
-            env = environment;
+            // env = environment;
         }
 
         public IConfiguration Configuration { get; }
-        public IWebHostEnvironment env { get; }
+        // public IWebHostEnvironment env { get; }
 
         public string getConnectionString()
         {
@@ -56,7 +56,7 @@ namespace Whirl6
             
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
