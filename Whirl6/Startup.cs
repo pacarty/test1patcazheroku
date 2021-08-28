@@ -49,7 +49,8 @@ namespace Whirl6
             string herokudb = getConnectionString();
 
             services.AddControllers();
-            services.AddDbContext<TodoContext>(options => options.UseNpgsql(Configuration.GetConnectionString(herokudb)));
+            // services.AddDbContext<TodoContext>(options => options.UseNpgsql(Configuration.GetConnectionString("LocalConnection")));
+            services.AddDbContext<TodoContext>(options => options.UseNpgsql(herokudb));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
