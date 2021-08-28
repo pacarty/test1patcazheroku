@@ -47,6 +47,8 @@ namespace Whirl6
 
         public void ConfigureServices(IServiceCollection services)
         {
+            string herokudb = getConnectionString();
+
             services.AddControllers();
 
             // TODO: Right now when launching with IIS Express and Docker the environment thinks both of these are Development.
@@ -58,7 +60,7 @@ namespace Whirl6
             }
             if (env.IsProduction())
             {
-                services.AddDbContext<TodoContext>(options => options.UseNpgsql(getConnectionString()));
+                services.AddDbContext<TodoContext>(options => options.UseNpgsql(herokudb));
             }
             
             
