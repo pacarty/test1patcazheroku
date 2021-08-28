@@ -21,9 +21,11 @@ namespace Whirl6.Controllers
         [Route("GetItems")]
         public IActionResult GetItems()
         {
-            var result = _context.TodoItems.ToList();
+            //var result = _context.TodoItems.ToList();
 
-            return Ok(result);
+            TodoItem todoItem = new TodoItem { Id = 1, Name = "testname", IsComplete = true };
+
+            return Ok(todoItem);
         }
 
         [HttpPost]
