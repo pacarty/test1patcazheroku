@@ -35,7 +35,9 @@ namespace Whirl6
                 Port = databaseUri.Port,
                 Username = userInfo[0],
                 Password = userInfo[1],
-                Database = databaseUri.LocalPath.TrimStart('/')
+                Database = databaseUri.LocalPath.TrimStart('/'),
+                SslMode = SslMode.Require,
+                TrustServerCertificate = true
             };
 
             return builder.ToString();
@@ -43,8 +45,11 @@ namespace Whirl6
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // TODO: Rather than commenting herokudb string out, change it so that it changes depending on whether we are in dev/prod environment.
+            string herokudb = getConnectionString();
+
             services.AddControllers();
-            services.AddDbContext<TodoContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<TodoContext>(options => options.UseNpgsql(Configuration.GetConnectionString(herokudb)));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
