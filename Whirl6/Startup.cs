@@ -47,21 +47,11 @@ namespace Whirl6
 
         public void ConfigureServices(IServiceCollection services)
         {
-            string herokudb = getConnectionString();
 
             services.AddControllers();
 
-            // TODO: Right now when launching with IIS Express and Docker the environment thinks both of these are Development.
-            // In the future, find a way that the environment can know whether we are in docker or iis, but for now we just have to switch
-            // between connection strings. When this runs in heroku it knows its in Production so there is no issue there.
-            if (env.IsDevelopment())
-            {
-                services.AddDbContext<TodoContext>(options => options.UseNpgsql(Configuration.GetConnectionString("LocalConnection")));
-            }
-            if (env.IsProduction())
-            {
-                services.AddDbContext<TodoContext>(options => options.UseNpgsql(herokudb));
-            }
+            services.AddDbContext<TodoContext>(options => options.UseNpgsql(Configuration.GetConnectionString(getConnectionString())));
+
             
             
         }
