@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,24 @@ namespace Whirl6.Controllers
             _context = context;
         }
 
+        public string getConnectionString()
+        {
+            var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+            var databaseUri = new Uri(databaseUrl);
+            var userInfo = databaseUri.UserInfo.Split(':');
+
+            var builder = new NpgsqlConnectionStringBuilder
+            {
+                Host = databaseUri.Host,
+                Port = databaseUri.Port,
+                Username = userInfo[0],
+                Password = userInfo[1],
+                Database = databaseUri.LocalPath.TrimStart('/')
+            };
+
+            return builder.ToString();
+        }
+
         [HttpGet]
         [Route("GetItems")]
         public IActionResult GetItems()
@@ -24,7 +43,9 @@ namespace Whirl6.Controllers
             var result = _context.TodoItems.ToList();
 
             // TodoItem todoItem = new TodoItem { Id = 1, Name = "testname", IsComplete = true };
-            var x = Environment.GetEnvironmentVariable("DATABASE_URL");
+            // var x = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+            var x = getConnectionString();
 
             return Ok(x);
         }
