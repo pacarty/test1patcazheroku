@@ -50,7 +50,7 @@ namespace Whirl6
 
             services.AddControllers();
 
-            services.AddDbContext<TodoContext>(options => options.UseNpgsql(Configuration.GetConnectionString(getConnectionString())));
+            services.AddDbContext<TodoContext>(options => options.UseNpgsql(getConnectionString()));
 
             
             
