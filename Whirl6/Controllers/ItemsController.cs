@@ -24,8 +24,9 @@ namespace Whirl6.Controllers
             var result = _context.TodoItems.ToList();
 
             // TodoItem todoItem = new TodoItem { Id = 1, Name = "testname", IsComplete = true };
+            var x = Environment.GetEnvironmentVariable("DATABASE_URL");
 
-            return Ok(result);
+            return Ok(x);
         }
 
         [HttpPost]
