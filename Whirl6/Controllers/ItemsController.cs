@@ -15,10 +15,10 @@ namespace Whirl6.Controllers
         private TodoContext _context;
         private IWebHostEnvironment env;
 
-        public ItemsController(TodoContext context, IWebHostEnvironment environment)
+        public ItemsController(TodoContext context /*, IWebHostEnvironment environment*/)
         {
             _context = context;
-            env = environment;
+            // env = environment;
         }
 
         
@@ -34,9 +34,9 @@ namespace Whirl6.Controllers
 
             // var x = getConnectionString();
 
-            var x = env.EnvironmentName;
+            
 
-            return Ok(x);
+            return Ok(result);
         }
 
         [HttpPost]

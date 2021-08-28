@@ -16,12 +16,14 @@ namespace Whirl6
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            env = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment env { get; }
 
         public string getConnectionString()
         {
@@ -45,15 +47,24 @@ namespace Whirl6
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO: Rather than commenting herokudb string out, change it so that it changes depending on whether we are in dev/prod environment.
-            string herokudb = getConnectionString();
-
             services.AddControllers();
-           //  services.AddDbContext<TodoContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DockerLocalConnection")));
-            services.AddDbContext<TodoContext>(options => options.UseNpgsql(herokudb));
+
+            // TODO: Right now when launching with IIS Express and Docker the environment thinks both of these are Development.
+            // In the future, find a way that the environment can know whether we are in docker or iis, but for now we just have to switch
+            // between connection strings. When this runs in heroku it knows its in Production so there is no issue there.
+            if (env.IsDevelopment())
+            {
+                services.AddDbContext<TodoContext>(options => options.UseNpgsql(Configuration.GetConnectionString("LocalConnection")));
+            }
+            else
+            {
+                services.AddDbContext<TodoContext>(options => options.UseNpgsql(getConnectionString()));
+            }
+            
+            
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             if (env.IsDevelopment())
             {
