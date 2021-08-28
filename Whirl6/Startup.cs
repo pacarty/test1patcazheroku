@@ -56,7 +56,7 @@ namespace Whirl6
             {
                 services.AddDbContext<TodoContext>(options => options.UseNpgsql(Configuration.GetConnectionString("LocalConnection")));
             }
-            else
+            if (env.IsProduction())
             {
                 services.AddDbContext<TodoContext>(options => options.UseNpgsql(getConnectionString()));
             }
